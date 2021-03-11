@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define TEST_DRIVERS 20
 #define CARS 5
@@ -13,11 +14,13 @@ void* test_drive(void* arg) {
         perror("pthread_mutex_lock");
     }
 
+    printf("Driving...\n");
+    times_driven++;
+    sleep(1);
 
     if (pthread_mutex_unlock(&mutex) != 0) {
         perror("pthread_mutex_unlock");
     }
-
 
     return NULL;
 }
@@ -42,6 +45,7 @@ int main(void) {
     if(pthread_mutex_destroy(&mutex) != 0) {
         perror("pthread_mutex_destroy");
     }
+    printf("Times driven: %d", times_driven);
 
     return 0;
 }
