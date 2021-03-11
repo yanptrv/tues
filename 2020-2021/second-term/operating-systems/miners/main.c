@@ -17,7 +17,7 @@ void* mine(void* arg) {
         }
 
         storage+=10;
-        printf("Miner %d gathered 10 gold", *(int*)(arg));
+        printf("Miner %d gathered 10 gold\n", *(int*)(arg));
         sleep(2);
 
         if (pthread_mutex_unlock(&mutex) != 0) {
@@ -41,7 +41,7 @@ void* trade(void* arg) {
         }
         else if (storage >= 10){
             storage-=10;
-            printf("Trader %d sold 10 gold", *(int*)(arg));
+            printf("Trader %d sold 10 gold\n", *(int*)(arg));
             sleep(2);
         }
 
@@ -91,6 +91,7 @@ int main(void) {
         }
     }
 
+    printf("Gold: %d\n", storage);
     if(pthread_mutex_destroy(&mutex) != 0) {
         perror ("pthread_mutex_destroy");
     }
