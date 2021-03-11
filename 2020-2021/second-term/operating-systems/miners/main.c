@@ -102,6 +102,8 @@ int main(int argc, char* argv[]) {
         perror ("pthread_mutex_destroy");
     }
     printf("Gold: %d\n", storage);
+    free(miners_group);
+    free(traders_group);
 
     return 0;
 }
