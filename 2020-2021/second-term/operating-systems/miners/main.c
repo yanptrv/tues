@@ -5,12 +5,12 @@
 
 pthread_mutex_t mutex;
 
-static int miners = 3;
-static int traders = 3;
+static int miners = 1;
+static int traders = 1;
 static int storage = 0;
 
 void* mine(void* arg) {
-    int number = *(int*)(arg) + 1;
+    long long number = (long long)(arg) + 1;
     for(int i = 0; i < 20; i++) {
         if (pthread_mutex_lock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -18,7 +18,7 @@ void* mine(void* arg) {
         }
 
         storage+=10;
-        printf("Miner %d gathered 10 gold\n", number);
+        printf("Miner %lld gathered 10 gold\n", number);
 
         if (pthread_mutex_unlock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -31,7 +31,7 @@ void* mine(void* arg) {
 }
 
 void* trade(void* arg) {
-    int number = *(int*)(arg) + 1;
+    long long number = (long long)(arg) + 1;
     for(int i = 0; i < 20; i++) {
         if (pthread_mutex_lock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -43,7 +43,7 @@ void* trade(void* arg) {
         }
         else {
             storage-=10;
-            printf("Trader %d sold 10 gold\n", number);
+            printf("Trader %lld sold 10 gold\n", number);
         }
 
         if (pthread_mutex_unlock(&mutex) != 0) {
@@ -62,18 +62,23 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+    if (argc >= 3) {
+        miners = (int) strtol(argv[1], (char**)NULL, 10);
+        traders = (int) strtol(argv[2], (char**)NULL, 10);
+    }
+
     pthread_t *miners_group = malloc(sizeof(pthread_t) * miners);
     pthread_t *traders_group = malloc(sizeof(pthread_t) * traders);
 
-    for(int i = 0; i < miners; i++) {
-        if(pthread_create(&miners_group[i], NULL, mine, &i) != 0) {
+    for(long long i = 0; i < miners; i++) {
+        if(pthread_create(&miners_group[i], NULL, mine, (void*)i) != 0) {
             perror("pthread_create");
             return -1;
         }
     }
 
-    for(int i = 0; i < traders; i++) {
-        if(pthread_create(&traders_group[i], NULL, trade, &i) != 0) {
+    for(long long i = 0; i < traders; i++) {
+        if(pthread_create(&traders_group[i], NULL, trade, (void*)i) != 0) {
             perror("pthread_create");
             return -1;
         }
