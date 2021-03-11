@@ -6,46 +6,54 @@
 #define TEST_DRIVERS 20
 #define CARS 5
 
-pthread_mutex_t mutex;
-static int times_driven = 0;
+pthread_mutex_t mutex[CARS];
+static int times_driven[CARS] = { 0, 0, 0, 0, 0 };
 
 void* test_drive(void* arg) {
-    if(pthread_mutex_lock(&mutex) != 0) {
-        perror("pthread_mutex_lock");
+    long driver = (long)arg;
+    for (int i = 0; i < CARS; i++) {
+        if (pthread_mutex_trylock(&mutex[i]) == 0) {
+
+            printf("Buyer %ld takes car %d.\n", driver, i+1);
+            times_driven[i]++;
+            printf("Buyer %ld returns car %d.\n", driver, i+1);
+
+            if (pthread_mutex_unlock(&mutex[i]) != 0) {
+                perror("pthread_mutex_unlock");
+            }
+        }
+        else {
+            i = i-1;
+        }
     }
-
-    printf("Driving...\n");
-    times_driven++;
-    sleep(1);
-
-    if (pthread_mutex_unlock(&mutex) != 0) {
-        perror("pthread_mutex_unlock");
-    }
-
     return NULL;
 }
 
 int main(void) {
-    if(pthread_mutex_init(&mutex, NULL) != 0) {
-        perror("pthread_mutex_init");
+    for (int i = 0; i < CARS; i++) {
+        if (pthread_mutex_init(&mutex[i], NULL) != 0) {
+            perror("pthread_mutex_init");
+        }
     }
     pthread_t *drivers_group = malloc(sizeof(pthread_t) * TEST_DRIVERS);
 
-    for(int i = 0; i < TEST_DRIVERS; i++) {
-        if(pthread_create(&drivers_group[i], NULL, test_drive, NULL) != 0) {
+    for (long i = 0; i < TEST_DRIVERS; i++) {
+        if (pthread_create(&drivers_group[i], NULL, test_drive, (void*)i) != 0) {
             perror("pthread_create");
         }
     }
 
-    for(int i = 0; i < TEST_DRIVERS; i++) {
-        if(pthread_join(drivers_group[i], NULL) != 0) {
+    for (int i = 0; i < TEST_DRIVERS; i++) {
+        if (pthread_join(drivers_group[i], NULL) != 0) {
             perror("pthread_join");
         }
     }
-    if(pthread_mutex_destroy(&mutex) != 0) {
-        perror("pthread_mutex_destroy");
+    for (int i = 0; i < CARS; i++) {
+        if (pthread_mutex_destroy(&mutex[i]) != 0) {
+            perror("pthread_mutex_destroy");
+        }
     }
-    printf("Times driven: %d", times_driven);
+    free(drivers_group);
 
     return 0;
 }
