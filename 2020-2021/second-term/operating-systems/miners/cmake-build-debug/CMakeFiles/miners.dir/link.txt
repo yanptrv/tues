@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/miners.dir/main.c.o  -o miners 
+/usr/bin/cc -Wall -Werror -Wpedantic -std=c11 -lpthread -g   CMakeFiles/miners.dir/main.c.o  -o miners 
