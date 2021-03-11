@@ -1,3 +1,10 @@
+//--------------------------------------------
+// NAME: Kristiyan Petrov
+// CLASS: XI A
+// NUMBER: 13
+// PROBLEM: #1
+//---------------------------------------------
+
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
