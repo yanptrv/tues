@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 pthread_mutex_t mutex;
 
@@ -9,28 +10,45 @@ static int traders = 1;
 static int storage = 0;
 
 void* mine(void* arg) {
-    if(pthread_mutex_lock(&mutex) != 0) {
-        perror("pthread_mutex_lock");
-        return NULL;
-    }
+    for(int i = 0; i < 20; i++) {
+        if (pthread_mutex_lock(&mutex) != 0) {
+            perror("pthread_mutex_lock");
+            return NULL;
+        }
 
-    if(pthread_mutex_unlock(&mutex) != 0) {
-        perror("pthread_mutex_lock");
-        return NULL;
+        storage+=10;
+        printf("Miner %d gathered 10 gold", *(int*)(arg));
+        sleep(2);
+
+        if (pthread_mutex_unlock(&mutex) != 0) {
+            perror("pthread_mutex_lock");
+            return NULL;
+        }
     }
 
     return NULL;
 }
 
 void* trade(void* arg) {
-    if(pthread_mutex_lock(&mutex) != 0) {
-        perror("pthread_mutex_lock");
-        return NULL;
-    }
+    for(int i = 0; i < 20; i++) {
+        if (pthread_mutex_lock(&mutex) != 0) {
+            perror("pthread_mutex_lock");
+            return NULL;
+        }
 
-    if(pthread_mutex_unlock(&mutex) != 0) {
-        perror("pthread_mutex_lock");
-        return NULL;
+        if(storage == 0) {
+            printf("The warehouse is empty, cannot sell!\n");
+        }
+        else if (storage >= 10){
+            storage-=10;
+            printf("Trader %d sold 10 gold", *(int*)(arg));
+            sleep(2);
+        }
+
+        if (pthread_mutex_unlock(&mutex) != 0) {
+            perror("pthread_mutex_lock");
+            return NULL;
+        }
     }
 
     return NULL;
