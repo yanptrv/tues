@@ -1,3 +1,10 @@
+//--------------------------------------------
+// NAME: Kristiyan Petrov
+// CLASS: XI A
+// NUMBER: 13
+// PROBLEM: #1
+//---------------------------------------------
+
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +17,7 @@ static int traders = 1;
 static int storage = 0;
 
 void* mine(void* arg) {
-    long long number = (long long)(arg) + 1;
+    long number = (long)(arg) + 1;
     for(int i = 0; i < 20; i++) {
         if (pthread_mutex_lock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -18,7 +25,7 @@ void* mine(void* arg) {
         }
 
         storage+=10;
-        printf("Miner %lld gathered 10 gold\n", number);
+        printf("Miner %ld gathered 10 gold\n", number);
 
         if (pthread_mutex_unlock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -31,7 +38,7 @@ void* mine(void* arg) {
 }
 
 void* trade(void* arg) {
-    long long number = (long long)(arg) + 1;
+    long number = (long)(arg) + 1;
     for(int i = 0; i < 20; i++) {
         if (pthread_mutex_lock(&mutex) != 0) {
             perror("pthread_mutex_lock");
@@ -43,7 +50,7 @@ void* trade(void* arg) {
         }
         else {
             storage-=10;
-            printf("Trader %lld sold 10 gold\n", number);
+            printf("Trader %ld sold 10 gold\n", number);
         }
 
         if (pthread_mutex_unlock(&mutex) != 0) {
@@ -70,14 +77,14 @@ int main(int argc, char* argv[]) {
     pthread_t *miners_group = malloc(sizeof(pthread_t) * miners);
     pthread_t *traders_group = malloc(sizeof(pthread_t) * traders);
 
-    for(long long i = 0; i < miners; i++) {
+    for(long i = 0; i < miners; i++) {
         if(pthread_create(&miners_group[i], NULL, mine, (void*)i) != 0) {
             perror("pthread_create");
             return -1;
         }
     }
 
-    for(long long i = 0; i < traders; i++) {
+    for(long i = 0; i < traders; i++) {
         if(pthread_create(&traders_group[i], NULL, trade, (void*)i) != 0) {
             perror("pthread_create");
             return -1;
