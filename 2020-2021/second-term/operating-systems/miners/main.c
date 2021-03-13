@@ -107,6 +107,7 @@ int main(int argc, char* argv[]) {
 
     if(pthread_mutex_destroy(&mutex) != 0) {
         perror ("pthread_mutex_destroy");
+        return -1;
     }
     printf("Gold: %d\n", storage);
     free(miners_group);
