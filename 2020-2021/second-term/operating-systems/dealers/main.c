@@ -27,6 +27,7 @@ void* test_drive(void* arg) {
 
             if (pthread_mutex_unlock(&mutex[i]) != 0) {
                 perror("pthread_mutex_unlock");
+                return NULL;
             }
         }
         else {
@@ -40,6 +41,7 @@ int main(void) {
     for (int i = 0; i < CARS; i++) {
         if (pthread_mutex_init(&mutex[i], NULL) != 0) {
             perror("pthread_mutex_init");
+            return -1;
         }
     }
     pthread_t *drivers_group = malloc(sizeof(pthread_t) * TEST_DRIVERS);
@@ -47,17 +49,20 @@ int main(void) {
     for (long i = 0; i < TEST_DRIVERS; i++) {
         if (pthread_create(&drivers_group[i], NULL, test_drive, (void*)i) != 0) {
             perror("pthread_create");
+            return -1;
         }
     }
 
     for (int i = 0; i < TEST_DRIVERS; i++) {
         if (pthread_join(drivers_group[i], NULL) != 0) {
             perror("pthread_join");
+            return -1;
         }
     }
     for (int i = 0; i < CARS; i++) {
         if (pthread_mutex_destroy(&mutex[i]) != 0) {
             perror("pthread_mutex_destroy");
+            return -1;
         }
     }
     free(drivers_group);
