@@ -62,8 +62,6 @@ int main(int argc, char* argv[]) {
             return -1;
         }
     }
-    free(mutex);
-    free(scv_group);
 
     return 0;
 }
