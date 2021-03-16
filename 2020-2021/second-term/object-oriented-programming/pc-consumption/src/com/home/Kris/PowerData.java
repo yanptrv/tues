@@ -1,9 +1,9 @@
 package com.home.Kris;
 
 public class PowerData {
-    final double minPower;
-    final double typicalPower;
-    final double maxPower;
+    public final double minPower;
+    public final double typicalPower;
+    public final double maxPower;
 
     public PowerData(double minPower, double typicalPower, double maxPower) {
         this.minPower = minPower;
