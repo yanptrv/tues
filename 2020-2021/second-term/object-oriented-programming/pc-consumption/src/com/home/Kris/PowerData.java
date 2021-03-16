@@ -5,21 +5,10 @@ public class PowerData {
     public final double typicalPower;
     public final double maxPower;
 
-    public PowerData(double minPower, double typicalPower, double maxPower) {
+    public PowerData(double typicalPower, double minPower, double maxPower) {
         this.minPower = minPower;
         this.typicalPower = typicalPower;
         this.maxPower = maxPower;
     }
 
-    public double getMinPower() {
-        return minPower;
-    }
-
-    public double getTypicalPower() {
-        return typicalPower;
-    }
-
-    public double getMaxPower() {
-        return maxPower;
-    }
 }
