@@ -12,24 +12,39 @@ pthread_mutex_t *mutex;
 
 void* get_minerals(void* arg) {
     long scv_number = (long)arg;
-    while(1) {
+    int mined_minerals = 0;
+    int flag = 1;
+    while(flag) {
         for (int i = 0; i < minerals_count; i++) {
-            sleep(3);
+            sleep(1);
             if (pthread_mutex_trylock(&mutex[i]) == 0) {
-
+                int emptyMinerals = 0;
+                for (int j = 0; j < minerals_count; j++) {
+                    if (mineralBlocks[j] == 0) {
+                        emptyMinerals++;
+                        if (emptyMinerals == minerals_count) {
+                            flag = 0;
+                        }
+                    }
+                }
+                printf("%d \n", mineralBlocks[i]);
                 printf("SCV %ld is mining from mineral block %d\n", scv_number + 1, i + 1);
-                if (mineralBlocks[i] < 8) {
-                    minerals_in_storage += mineralBlocks[i];
-                    mineralBlocks = 0;
-                    break;
-                } else {
+                if (mineralBlocks[i] >= 8){
+                    mined_minerals = 8;
                     mineralBlocks[i] -= 8;
-                    printf("%d\n", mineralBlocks[i]);
+                }
+                else if (mineralBlocks[i] < 8 && mineralBlocks[i] != 0) {
+                    mined_minerals = mineralBlocks[i];
+                    mineralBlocks[i] = 0;
+                }
+                else if (mineralBlocks[i] == 0){
+                    mined_minerals = 0;
                 }
                 printf("SCV %ld is transporting minerals\n", scv_number + 1);
-                sleep(2);
-                minerals_in_storage += 8;
+                //sleep(2);
+                minerals_in_storage += mined_minerals;
                 printf("SCV %ld delivered minerals to the Command center\n", scv_number + 1);
+
 
                 if (pthread_mutex_unlock(&mutex[i]) != 0) {
                     perror("pthread_mutex_unlock");
@@ -42,6 +57,7 @@ void* get_minerals(void* arg) {
             }
         }
     }
+    return NULL;
 }
 int main(int argc, char* argv[]) {
 
