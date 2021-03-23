@@ -4,54 +4,52 @@
 #include <unistd.h>
 
 int scv = 5;
-int minerals_in_storage = 0, *mineralBlocks;
+int mineralsInStorage = 0, *mineralBlocks;
 int soldiers = 0;
-long minerals_count;
+long mineralsCount = 2;
 
 pthread_mutex_t *mutex;
 
 void* get_minerals(void* arg) {
-    long scv_number = (long)arg;
-    int mined_minerals = 0;
+    long scvNumber = (long)arg;
+    int minedMinerals;
     int flag = 1;
     while(flag) {
-        for (int i = 0; i < minerals_count; i++) {
-            sleep(1);
+        for (int i = 0; i < mineralsCount; i++) {
+            sleep(3);
             if (pthread_mutex_trylock(&mutex[i]) == 0) {
                 int emptyMinerals = 0;
-                for (int j = 0; j < minerals_count; j++) {
+                for (int j = 0; j < mineralsCount; j++) {
                     if (mineralBlocks[j] == 0) {
                         emptyMinerals++;
-                        if (emptyMinerals == minerals_count) {
+                        if (emptyMinerals == mineralsCount) {
                             flag = 0;
                         }
                     }
                 }
                 printf("%d \n", mineralBlocks[i]);
-                printf("SCV %ld is mining from mineral block %d\n", scv_number + 1, i + 1);
+                printf("SCV %ld is mining from mineral block %d\n", scvNumber + 1, i + 1);
                 if (mineralBlocks[i] >= 8){
-                    mined_minerals = 8;
+                    minedMinerals = 8;
                     mineralBlocks[i] -= 8;
                 }
                 else if (mineralBlocks[i] < 8 && mineralBlocks[i] != 0) {
-                    mined_minerals = mineralBlocks[i];
+                    minedMinerals = mineralBlocks[i];
                     mineralBlocks[i] = 0;
                 }
-                else if (mineralBlocks[i] == 0){
-                    mined_minerals = 0;
-                }
-                printf("SCV %ld is transporting minerals\n", scv_number + 1);
-                //sleep(2);
-                minerals_in_storage += mined_minerals;
-                printf("SCV %ld delivered minerals to the Command center\n", scv_number + 1);
+                printf("SCV %ld is transporting minerals\n", scvNumber + 1);
+                sleep(2);
+                mineralsInStorage += minedMinerals;
+                printf("SCV %ld delivered minerals to the Command center\n", scvNumber + 1);
 
 
                 if (pthread_mutex_unlock(&mutex[i]) != 0) {
                     perror("pthread_mutex_unlock");
                     return NULL;
                 }
+                minedMinerals = 0;
             } else {
-                if (i == minerals_count - 1) {
+                if (i == mineralsCount - 1) {
                     i = 0;
                 }
             }
@@ -62,19 +60,16 @@ void* get_minerals(void* arg) {
 int main(int argc, char* argv[]) {
 
     if(argc == 2) {
-        minerals_count = strtol(argv[1], (char**)NULL, 10);
-    }
-    else if(argc == 1){
-        minerals_count = 2;
+        mineralsCount = strtol(argv[1], (char**)NULL, 10);
     }
 
-    mineralBlocks = malloc(sizeof(long) * minerals_count);
-    for(int i = 0; i < minerals_count; i++) {
+    mineralBlocks = malloc(sizeof(long) * mineralsCount);
+    for(int i = 0; i < mineralsCount; i++) {
         mineralBlocks[i] = 500;
     }
 
-    mutex = malloc(sizeof(pthread_mutex_t) * minerals_count);
-    for(int i = 0; i < minerals_count; i++) {
+    mutex = malloc(sizeof(pthread_mutex_t) * mineralsCount);
+    for(int i = 0; i < mineralsCount; i++) {
         if(pthread_mutex_init(&mutex[i], NULL) != 0) {
             perror("pthread_mutex_init");
             return -1;
@@ -97,13 +92,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for(int i = 0; i < minerals_count; i++) {
+    for(int i = 0; i < mineralsCount; i++) {
         if(pthread_mutex_destroy(&mutex[i]) != 0) {
             perror("pthread_mutex_destroy");
             return -1;
         }
     }
-    printf("%d", minerals_in_storage);
+    printf("%d\n", mineralsInStorage);
     free(mineralBlocks);
     free(scv_group);
     free(mutex);
