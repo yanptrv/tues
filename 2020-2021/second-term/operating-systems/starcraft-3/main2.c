@@ -2,7 +2,7 @@
 // NAME: Kristiyan Petrov
 // CLASS: XI A
 // NUMBER: 14
-// PROBLEM: #25
+// PROBLEM: #26
 // FILE NAME: main2.c
 // FILE PURPOSE:
 // Implementing the backend of StarCraft III
@@ -14,9 +14,24 @@
 #include <string.h>
 #include <unistd.h>
 
+pthread_t *scvGroup;
 pthread_mutex_t *blocksMutex, centerMutex;
 int *blocksMinerals, storage = 0, marinesCount = 0;
 long blocksCount = 2, scvCount = 5;
+
+//--------------------------------------------
+// FUNCTION: mineMinerals
+// функцията използва mutex-и за синхронизация
+// на нишки, в които "копае" от масив с минерални
+// блокове и ги добавя с трезор, отново с mutex-и
+// приключва своята работа, когата всички минерлани
+// блокове (елемнти) на масива имат за стойност нула,
+// т.е биват изкопани
+// PARAMETERS:
+// void* arg е единствения параметър, който приема функцията
+// и той представлява подаден от всяква нишка номер (на нишката),
+// който бива конвертиран към нормално число
+//---------------------------------------------
 
 void* mineMinerals(void* arg) {
     long scvNum = (long)arg;
@@ -79,6 +94,15 @@ void* mineMinerals(void* arg) {
     }
 }
 
+//--------------------------------------------
+// FUNCTION: commandCenter
+// функцията представлява "команде център", който всъщност
+// е цикъл, в който пишеш команда, която съответно добавя
+// войник или създава нов работник, работи докато войниците не станат 20
+// PARAMETERS:
+// функцията не приема никакви параметри
+//---------------------------------------------
+
 void* commandCenter() {
     char command;
     while (1) {
@@ -102,11 +126,31 @@ void* commandCenter() {
                 }
             }
         }
+        else if (strcmp(&command, "s") == 0) {
+            if (marinesCount + scvCount == 200) {
+                printf("Marines and SCVs limit reached");
+            }
+            else {
+                if (storage >= 50) {
+                    storage-=50;
+                    sleep(4);
+                    scvCount++;
+                    scvGroup = realloc(scvGroup, sizeof(pthread_t) * scvCount);
+                    if (pthread_create(&scvGroup[scvCount-1], NULL, mineMinerals, (void*)(scvCount-1)) != 0) {
+                        perror("pthread_create");
+                        return NULL;
+                    }
+                    printf("SCV good to go, sir.\n");
+                }
+                else {
+                    printf("Not enough minerals.\n");
+                }
+            }
+        }
         else {
             printf("Invalid command.\n");
         }
     }
-
 }
 
 int main(int argc, char* argv[]) {
@@ -116,7 +160,7 @@ int main(int argc, char* argv[]) {
 
     blocksMinerals = malloc(sizeof(long) * blocksCount);
     blocksMutex = malloc(sizeof(pthread_mutex_t) * blocksCount);
-    pthread_t *scvGroup = malloc(sizeof(pthread_t) * scvCount);
+    scvGroup = malloc(sizeof(pthread_t) * scvCount);
     pthread_t cmdCntr;
 
     for (long i = 0; i < blocksCount; i++) {
@@ -156,14 +200,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    if (pthread_join(cmdCntr, NULL) != 0) {
-        free(blocksMinerals);
-        free(blocksMutex);
-        free(scvGroup);
-        perror("pthread_join");
-        return -1;
-    }
-
     for (int i = 0; i < scvCount; i++) {
         if (pthread_join(scvGroup[i], NULL) != 0) {
             free(blocksMinerals);
@@ -172,6 +208,14 @@ int main(int argc, char* argv[]) {
             perror("pthread_join");
             return -1;
         }
+    }
+
+    if (pthread_join(cmdCntr, NULL) != 0) {
+        free(blocksMinerals);
+        free(blocksMutex);
+        free(scvGroup);
+        perror("pthread_join");
+        return -1;
     }
 
     if (pthread_mutex_destroy(&centerMutex) != 0) {
