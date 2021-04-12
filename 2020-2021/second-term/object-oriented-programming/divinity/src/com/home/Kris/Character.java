@@ -21,14 +21,17 @@ public abstract class Character {
     }
 
     public void pick(Item newItem) throws Exception {
-        if (newItem instanceof Equippable && hotbar.size() < 3) {
-            hotbar.add(newItem);
-        }
-        else if (inventory.size() < 10){
+        if (inventory.size() < 10){
             inventory.add(newItem);
+            if (newItem instanceof Equippable && hotbar.size() < 3) {
+                hotbar.add(newItem);
+            }
+            else if (newItem instanceof Equippable && hotbar.size() == 3) {
+                throw new Exception("No more space in hotbar");
+            }
         }
         else {
-            throw new Exception("No more space");
+            throw new Exception("No more space in inventory");
         }
     }
 
