@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/perumtations_combinations.dir/main.cpp.o  -o perumtations_combinations 

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dex/Programming/tues/2020-2021/second-term/operating-systems/ls/main.c
+stdio.h
+-
+dirent.h
+-
+sys/stat.h
+-
+unistd.h
+-
+string.h
+-
+grp.h
+-
+pwd.h
+-
+time.h
+-
+stdlib.h
+-
+
