@@ -18,10 +18,6 @@ public class Main {
         System.out.println(salad.getSalePrice());
         Map<Dish, Double> orderTable1 = new HashMap<>();
         orderTable1.put(salad, 2.0);
-        Order table1 = new Order(orderTable1);
-        System.out.println(table1.getId());
-        Order table2 = new Order(orderTable1);
-        System.out.println(table2.getId());
 
     }
 }
