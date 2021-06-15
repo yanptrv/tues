@@ -18,6 +18,15 @@ public class Main {
         System.out.println(salad.getSalePrice());
         Map<Dish, Double> orderTable1 = new HashMap<>();
         orderTable1.put(salad, 2.0);
+        Order order = new Order(orderTable1);
+        Restaurant restaurant = new Restaurant();
+        restaurant.addOrder(order);
+        try {
+            restaurant.completeOrder(order.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
