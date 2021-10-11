@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import operations.Operation;
-import org.elsys.operations.OperationFactory;
-
+import operations.*;
 
 public class Server {
 
