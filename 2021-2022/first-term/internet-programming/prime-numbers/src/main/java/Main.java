@@ -12,25 +12,28 @@ public class Main {
 
                 int num = Integer.parseInt(arg);
                 boolean flag = false;
-                for (int i = 2; i <= num / 2; ++i) {
-                    if (num % i == 0) {
-                        flag = true;
-                        break;
+                if (num > 0) {
+                    for (int i = 2; i <= num / 2; ++i) {
+                        if (num % i == 0) {
+                            flag = true;
+                            break;
+                        }
                     }
+                }  else {
+                    flag = true;
                 }
                 if (!flag)
-                    System.out.println(num + " is a prime number.");
+                    System.out.println(num + " is a prime");
                 else
-                    System.out.println(num + " is not a prime number.");
+                    System.out.println(num + " is not a prime");
             }   catch (NumberFormatException n) {
                 try {
-                    double d = Double.parseDouble(arg);
-                    if (d - (int) d != 0) {
-                        System.out.println(arg + " is not an integer");
-                    }
+                    float checkIfFloat = Float.parseFloat(arg);
                 } catch(Exception e) {
                     System.out.println(arg + " is not a number");
+                    continue;
                 }
+                System.out.println(arg + " is not an integer");
             }
         }
     }
