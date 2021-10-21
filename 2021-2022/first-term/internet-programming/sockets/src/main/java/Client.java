@@ -31,14 +31,14 @@ public class Client {
     public static void main(String[] args) throws IOException {
         Client client = new Client();
         Client client1 = new Client();
-        client.startConnection("localhost", 6666);
+        client.startConnection("192.168.1.", 6666);
 
         System.out.println(client.sendMessage("hello server"));
         System.out.println(client.sendMessage("hello"));
+        client.stopConnection();
 
-         client1.startConnection("localhost",6666);
+         client1.startConnection("192.168.1.180",6666);
         System.out.println(client1.sendMessage("hello"));
-
-        
+        client1.stopConnection();
     }
 }
