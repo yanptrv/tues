@@ -6,6 +6,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.TimeZone;
 
 public class Client {
     private static Socket clientSocket;
@@ -17,6 +18,11 @@ public class Client {
         @Override
         public void run() {
             while(true) {
+                try {
+                    Thread.sleep(1000*4);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 out.println("test");
                 try {
                     in.readLine();
@@ -80,6 +86,8 @@ public class Client {
                         client.stopConnection();
                         System.out.println("server disconnect");
                         System.exit(0);
+                    } else if (operation.equalsIgnoreCase("time")) {
+                        operation = operation + " - " + TimeZone.getDefault().getRawOffset() / 1000 / 60 / 60;
                     }
                     System.out.println(client.sendMessage(operation));
                 }
