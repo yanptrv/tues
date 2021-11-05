@@ -1,2 +1,0 @@
-# tues
-School work repository
