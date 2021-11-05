@@ -1,0 +1,3 @@
+/home/dex/Programming/tues/2020-2021/second-term/operating-systems/ls/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/dex/Programming/tues/2020-2021/second-term/operating-systems/ls/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/dex/Programming/tues/2020-2021/second-term/operating-systems/ls/cmake-build-debug/CMakeFiles/ls.dir
