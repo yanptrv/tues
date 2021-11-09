@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    table, th, td {
+        border:1px solid black;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<table style="width:100%">
+    <tr>
+        <th>Carrier</th>
+        <th>Time</th>
+        <th>Destination</th>
+        <th>Train#</th>
+        <th>Status</th>
+    </tr>
+    {% for train in trains  %}
+        <tr>
+            <td>MBTA</td>
+            <td>{{ train.attributes.departure_time }}</td>
+            <td>{{ train.attributes.headsign }}</td>
+            <td>{{ train.attributes.name }}</td>
+            <td>{{ train.attributes.status }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{#<a href={% url 'board:index' %}>asd</a>#}
+</body>
+</html>
