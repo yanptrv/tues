@@ -1,5 +1,5 @@
-from django.shortcuts import render
 import requests
+from django.shortcuts import render
 
 
 def index(request):
@@ -13,7 +13,8 @@ def index(request):
         train_trip_id = train['relationships']['trip']['data']['id']
         for info_train in json_data['included']:
             if train_schedule_id == info_train['id']:
-                train['attributes']['departure_time'] = info_train['attributes']['departure_time']
+                departure_time = info_train['attributes']['departure_time']
+                train['attributes']['departure_time'] = departure_time[11:16]
             if train_trip_id == info_train['id']:
                 train['attributes']['name'] = info_train['attributes']['name']
                 train['attributes']['headsign'] = info_train['attributes']['headsign']
