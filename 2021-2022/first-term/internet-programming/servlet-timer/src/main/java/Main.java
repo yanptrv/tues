@@ -11,7 +11,7 @@ public class Main {
         tomcat.setBaseDir("temp");
         tomcat.setPort(8080);
 
-        String contextPath = "/";
+        String contextPath = "";
         String docBase = new File(".").getAbsolutePath();
 
         Context context = tomcat.addContext(contextPath, docBase);
