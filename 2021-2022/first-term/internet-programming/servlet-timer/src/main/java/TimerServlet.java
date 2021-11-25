@@ -61,78 +61,94 @@ public class TimerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String[] full = req.getPathInfo().split("/");
-        if ( full.length != 2 || !full[1].equals("start")) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            String[] full = req.getPathInfo().split("/");
+            if (full.length != 2 || !full[1].equals("start")) {
+                resp.setStatus(400);
+            } else {
+                resp.setStatus(201);
+                String randomId = UUID.randomUUID().toString();
+                timers.add(new Timer(randomId));
+                resp.getWriter().println(randomId);
+            }
+        }catch (NullPointerException | IOException e) {
             resp.setStatus(400);
-        } else {
-            resp.setStatus(201);
-            String randomId = UUID.randomUUID().toString();
-            timers.add(new Timer(randomId));
-            resp.getWriter().println(randomId);
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        boolean noSuchId = true;
-        String[] full = req.getPathInfo().split("/");
-        if (full.length != 2 ) {
-            resp.setStatus(400);
-        } else {
-            for(Timer timer : timers) {
-                if (timer.getId().equals(full[1])) {
-                    noSuchId = false;
-                    resp.setStatus(200);
-                    resp.getWriter().println(timer.getStartingTime());
-                    break;
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            boolean noSuchId = true;
+            String[] full = req.getPathInfo().split("/");
+            if (full.length != 2) {
+                resp.setStatus(400);
+            } else {
+                for (Timer timer : timers) {
+                    if (timer.getId().equals(full[1])) {
+                        noSuchId = false;
+                        resp.setStatus(200);
+                        resp.getWriter().println(timer.getStartingTime());
+                        break;
+                    }
+                }
+                if (noSuchId) {
+                    resp.setStatus(404);
                 }
             }
-            if(noSuchId) {
-                resp.setStatus(404);
-            }
+        }catch (NullPointerException | IOException e) {
+            resp.setStatus(400);
         }
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        boolean noSuchId = true;
-        String[] full = req.getPathInfo().split("/");
-        if ( full.length != 3 || !full[2].equals("lap")) {
-            resp.setStatus(400);
-        } else {
-            for(Timer timer : timers) {
-                if (timer.getId().equals(full[1])) {
-                    noSuchId = false;
-                    resp.setStatus(200);
-                    resp.getWriter().println(timer.setLap());
-                    break;
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            boolean noSuchId = true;
+            String[] full = req.getPathInfo().split("/");
+            if (full.length != 3 || !full[2].equals("lap")) {
+                resp.setStatus(400);
+            } else {
+                for (Timer timer : timers) {
+                    if (timer.getId().equals(full[1])) {
+                        noSuchId = false;
+                        resp.setStatus(200);
+                        resp.getWriter().println(timer.setLap());
+                        break;
+                    }
+                }
+                if (noSuchId) {
+                    resp.setStatus(404);
                 }
             }
-            if(noSuchId) {
-                resp.setStatus(404);
-            }
+        }catch (NullPointerException | IOException e) {
+            resp.setStatus(400);
         }
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        boolean noSuchId = true;
-        String[] full = req.getPathInfo().split("/");
-        if (full.length != 2 ) {
-            resp.setStatus(400);
-        } else {
-            for(Timer timer : timers) {
-                if (timer.getId().equals(full[1])) {
-                    noSuchId = false;
-                    resp.setStatus(200);
-                    resp.getWriter().println(timer.stop());
-                    break;
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            boolean noSuchId = true;
+            String[] full = req.getPathInfo().split("/");
+            if (full.length != 2) {
+                resp.setStatus(400);
+            } else {
+                for (Timer timer : timers) {
+                    if (timer.getId().equals(full[1])) {
+                        noSuchId = false;
+                        resp.setStatus(200);
+                        resp.getWriter().println(timer.stop());
+                        break;
+                    }
+                }
+                if (noSuchId) {
+                    resp.setStatus(404);
                 }
             }
-            if(noSuchId) {
-                resp.setStatus(404);
-            }
+        }catch (NullPointerException | IOException e) {
+            resp.setStatus(400);
         }
     }
 }
