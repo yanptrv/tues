@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.elsys</groupId>
-    <artifactId>spring-boot-calculator</artifactId>
+    <artifactId>spring-boot-quizz</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-calculator</name>
-    <description>spring-boot-calculator</description>
+    <name>spring-boot-quizz</name>
+    <description>spring-boot-quizz</description>
     <properties>
         <java.version>17</java.version>
     </properties>
