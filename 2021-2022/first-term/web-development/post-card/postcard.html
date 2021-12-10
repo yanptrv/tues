@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+    <head>
+        <title>Post Card</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="postcard.css" />
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Meow+Script&display=swap');
+
+            .post-card {
+                background-color: transparent;
+                width: 900px;
+                height: 600px;
+                perspective: 1000px; 
+            }
+
+            .amsterdam {
+                position: absolute;
+                top: 10%;
+                left: 22%;
+            }
+
+            .flag {
+                margin-top: -1.6%;
+                position: absolute;
+                left: 44%;
+                width: 10%;
+                height: 15%;
+            }
+
+            .bottom {
+                margin-top: 35%;
+                width: 100%;
+                height: 10%;
+                background-color: #454548;
+            }
+
+            .wish {
+                font-family: 'Meow Script', cursive;
+                text-align: left;
+                padding-left: 10%;
+                padding-right: 25%;
+                font-size: 250%;
+                padding-top: 20%;
+            }
+
+            .from {
+                font-family: 'Meow Script', cursive;
+                font-size: 200%;
+                margin-top: 10%;
+                margin-left: 50%;
+            }
+
+            .happy {
+                font-family: 'Meow Script', cursive;
+                font-size: 500%;
+                text-align: center;
+            }
+
+            .in {
+                margin-top: -3%;
+                font-family: 'Meow Script', cursive;
+                text-align: center;
+                font-size: 250%;
+            }
+
+            .post-card-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.8s;
+                transform-style: preserve-3d;
+            }
+
+            .post-card-front, .post-card-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                -webkit-backface-visibility: hidden; /* Safari */
+                backface-visibility: hidden;
+            }
+
+            .post-card-front {
+                background: #fbf1da;
+                background: radial-gradient(circle, #e89d9d 40%, rgb(176, 27, 54) 100%);
+                color: black;
+            }
+
+            .post-card-back {
+                background-color: #f9efe7;
+                color: black;
+                transform: rotateY(180deg);
+                z-index: 2;
+            } 
+
+            input[type="checkbox"] {
+                display: none;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+
+            input[type=checkbox] + label {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                z-index: 1;
+            }
+
+            input[type=checkbox] + label i { font-size: 36px; }
+            input[type=checkbox] + label .fa-redo { display: block; }
+            input[type=checkbox] + label .fa-undo { display: none; }
+            input[type=checkbox] + label { color: black; }
+            input[type=checkbox]:checked + label .fa-undo { display: block; }
+            input[type=checkbox]:checked + label .fa-redo { display: none; }
+            input[type=checkbox]:checked + label + .post-card-inner { transform: rotateY(180deg); }
+        </style>
+    </head>
+    <body>
+        <div class="post-card">
+            <input type="checkbox" id="flipSwitch" value="Flip">
+            <label for="flipSwitch">
+              <i class="fas fa-undo"></i>
+              <i class="fas fa-redo"></i>
+            </label>
+            <div class="post-card-inner">
+              <div class="post-card-front">
+                  <h1 class="happy">Happy Holidays</h1>
+                  <h1 class="in">IN</h1>
+                  <img class="amsterdam" src="https://images.vexels.com/media/users/3/162840/isolated/preview/57988822333633cd5d779a91369721a7-amsterdam-museum-mill-aeroport-plane-cathedral-skyline-sticker.png">
+                  <div class="bottom">
+                      <img class="flag" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F1303%2F1303901.png&f=1&nofb=1">
+                  </div>
+              </div>
+              <div class="post-card-back">
+                    <h1 class="wish">Be strong as you fight your way to success, the difficulty you face is nothing compared to the joy of success.</h1>
+                    <p class="from">Kristiyan Petrov</p>
+              </div>
+            </div>
+          </div>
+    </body>
+</html>
