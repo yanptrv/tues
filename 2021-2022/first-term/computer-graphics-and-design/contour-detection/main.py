@@ -1,7 +1,7 @@
 import cv2
 
 # to actually visualize the effect of `CHAIN_APPROX_SIMPLE`, we need a proper image
-image1 = cv2.imread('external-content.duckduckgo.com.jpg')
+image1 = cv2.imread('before.jpg')
 img_gray1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
 
 ret, thresh1 = cv2.threshold(img_gray1, 150, 255, cv2.THRESH_BINARY)
@@ -19,7 +19,7 @@ for i, contour in enumerate(contours2): # loop over one contour area
 # see the results
 cv2.imshow('CHAIN_APPROX_SIMPLE Point only', image_copy3)
 cv2.waitKey(0)
-cv2.imwrite('contour_point_simple.jpg', image_copy3)
+cv2.imwrite('after.jpg', image_copy3)
 cv2.destroyAllWindows()
 
 
