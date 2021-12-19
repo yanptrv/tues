@@ -1,4 +1,4 @@
-package org.elsys.springboottimer;
+package org.elsys.springboot;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
