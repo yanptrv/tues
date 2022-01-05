@@ -1,6 +1,9 @@
 import requests
 from django.test import TestCase
 from elsys.processors import api_processor
+from unittest.mock import Mock, patch
+from elsys.processors.api_processor import ApiProcessor
+import json
 
 LONGEST_COMMENT = requests.get('https://jsonplaceholder.typicode.com/posts/1/comments').json()[2]
 LONGEST_TITLE_POST = requests.get('https://jsonplaceholder.typicode.com/posts').json()[57]
@@ -18,6 +21,7 @@ class TestApiProcessor(TestCase):
 
     def test_post_title_is_longest(self):
         assert api_processor.ApiProcessor.post_with_longest_title() == LONGEST_TITLE_POST
+
 
 # from elsys.models import Car
 # from datetime import datetime
@@ -56,3 +60,12 @@ class TestApiProcessor(TestCase):
 #        mocked_requests.return_value = {'data':{'a': 1}}
 #        response = ApiHandler().call_api()
 #        assert response == 2
+
+
+class TestC(TestCase):
+    @patch("requests.get")
+    def test_call_api(self, mocked_requests):
+        data = json.load(open('./elsys/comments.json'))
+        mocked_requests.return_value.json = Mock(return_value=data)
+        response = ApiProcessor().longest_comment()
+        assert response['id'] == 3
