@@ -26,7 +26,12 @@ jobs:
         cd 2021-2022/first-term/software-engineering/mysite
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install pylint
     - name: Run Tests
       run: |
         cd 2021-2022/first-term/software-engineering/mysite
         python manage.py test
+    - name: Analysing the code with pylint
+      run: |
+        cd 2021-2022/first-term/software-engineering/mysite
+        pylint `ls -R|grep .py$|xargs`
