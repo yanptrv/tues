@@ -1,8 +1,9 @@
-from django.urls import include, path
-from api import views
-from api.views import CarsView
+"""Importing libraries"""
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls import url
+from django.urls import path
+from api import views
+from api.views import CarsView
 
 schema_view = get_swagger_view(title='Cars API')
 

@@ -1,4 +1,5 @@
-from django.urls import include, path
+"""Path import"""
+from django.urls import path
 from elsys import views
 
 urlpatterns = [
