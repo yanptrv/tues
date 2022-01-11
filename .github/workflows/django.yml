@@ -34,5 +34,5 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         cd 2021-2022/first-term/software-engineering/mysite
-        python -m pylint --fail-under=9 `find -regextype egrep -regex '(.*.py)$'` |
+        python -m pylint --fail-under=5 `find -regextype egrep -regex '(.*.py)$'` |
         tee
