@@ -1,0 +1,68 @@
+/* ==UserStyle== 
+@name         Dark Elsys
+@description  Тъмна тема на сайта на ТУЕС
+@author       Кристиян Петров
+@version      0.0.1
+@license      MIT
+@preprocessor stylus
+==/UserStyle== */
+
+@-moz-document
+  domain("elsys-bg.org"),
+  regexp("http(s?)://[^/]*\\.also(\\.suports|\\.regexp)?(\\.[a-z][a-z])?/.*")
+{
+    :root{
+      --black: black;
+      --darkgray: #423d3d;
+      --gray: gray;
+    }
+
+    #page {
+      background: var(--black);
+    }
+
+    body {
+      background: var(--black);
+    }
+
+    .news-list {
+      background: var(--darkgray);
+    }
+
+    #header {
+      background: var(--darkgray);
+    }
+
+    #footer {
+      background: var(--darkgray);
+    }
+
+
+    #navigation>ul>li>.megamenu:before {
+        background: var(--darkgray);
+    }
+
+    hr {
+      border-bottom: 17px solid var(--black);
+    }
+
+    #search:before {
+      background: var(--darkgray);
+    }
+
+    .service-box > ul > li .text {
+      background: var(--darkgray);
+    }
+
+    .service-box > ul > li .text figure {
+      background: var(--darkgray);
+    }
+
+    .service-box > ul > li::before {
+      background: var(--darkgray);
+    }
+
+    .service-box > ul > li::after {
+      background: var(--darkgray);
+    }
+}
