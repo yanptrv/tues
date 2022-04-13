@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<style>
+    #menu {
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        justify-self: center;
+
+        max-width: 50%;
+        border: 1px solid gray;
+    }
+
+    #navigation-tabs {
+        display: flex;
+        justify-content: center;
+        background-color: #f1f1f1;
+    }
+
+    .navigation-tab {
+        flex-grow: 1;
+        border: 1px solid gray;
+        padding: 2rem;
+    }
+
+    .tab {
+        display: none;
+    }
+
+    .active {
+        display: block !important;
+    }
+</style>
+
+<body>
+    <div id="menu">
+        <div id="navigation-tabs">
+            <div id="tab-1" class="navigation-tab">Tab 1</div>
+            <div id="tab-2" class="navigation-tab">Tab 2</div>
+            <div id="tab-3" class="navigation-tab">Tab 3</div>
+        </div>
+        <div id="tabs">
+            <div id="show-tab-1" class="tab active">1</div>
+            <div id="show-tab-2" class="tab">2</div>
+            <div id="show-tab-3" class="tab">3</div>
+        </div>
+    </div>
+</body>
+
+<script src="index.js"></script>
+</html>

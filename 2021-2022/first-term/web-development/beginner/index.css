@@ -1,0 +1,28 @@
+#menu {
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+
+    max-width: 50%;
+    border: 1px solid gray;
+}
+
+#navigation-tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.navigation-tab {
+    flex-grow: 1;
+    border: 1px solid gray;
+    padding: 2rem;
+}
+
+.tab {
+    display: none;
+}
+
+.active {
+    display: block !important;
+}

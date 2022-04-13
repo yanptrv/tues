@@ -34,4 +34,5 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         cd 2021-2022/first-term/software-engineering/mysite
-        pylint `ls -R|grep .py$|xargs`
+        python -m pylint --fail-under=5 `find -regextype egrep -regex '(.*.py)$'` |
+        tee
